@@ -10,7 +10,7 @@ Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https
 
 ```sh
 $ git clone git@github.com:decoded/labs-js.git <project-category>-<project-name>
-$ cd node-js-getting-started
+$ cd <project-category>-<project-name>
 $ npm install
 $ npm start
 ```
