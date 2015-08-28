@@ -26,7 +26,7 @@ Your app should now be running on [localhost:5000](http://localhost:5000/).
 
 ## Setting up a database
 
-Heroku supports a postgres database with up to 10,000 rows on the free tier. To enable it, run:
+Heroku supports a postgres database with up to 10,000 rows on the free tier. To enable it, make sure you have the [Heroku Toolbet](https://toolbelt.heroku.com/) installed and run:
 
 ```sh
 heroku addons:create heroku-postgresql:hobby-dev
@@ -39,7 +39,7 @@ heroku pg:psql
 
 ### Local db setup
 
-Install and open [postgress.app](http://postgresapp.com/)
+Install and open [postgres.app](http://postgresapp.com/)
 
 Create a database:
 
