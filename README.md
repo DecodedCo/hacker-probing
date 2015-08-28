@@ -4,23 +4,27 @@ A barebones Node.js app for labs using [Express 4](http://expressjs.com/).
 
 This application supports the [Getting Started with Node on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs) article - check it out.
 
+## Prerequisities
+
+1. You have already started following the instructions at [https://github.com/decodedco/labs](https://github.com/decodedco/labs)
+2. You have a \<project-category\> and \<project-name\> for your project
+2. You have a \<project-remote\> from your project repository (e.g. `git@github.com:DecodedCo/yourproject.git`)
+1. You have [Node.js](http://nodejs.org/) installed.
+
 ## Running Locally
 
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
-
 ```sh
-$ git clone git@github.com:decoded/labs-js.git <project-category>-<project-name>
+$ git clone git@github.com:decodedco/labs-js <project-category>-<project-name>
 $ cd <project-category>-<project-name>
+$ git remote rm origin # so you don't change the sample site
+$ git remote add origin <project-remote> # switches to your new repo
 $ npm install
 $ npm start
 ```
 
 Your app should now be running on [localhost:5000](http://localhost:5000/).
 
-## Setting up the labs server routing config
-To finish setting up your project, return to the documentation at https://github.com/decodedco/labs
-
-## Setting up the database
+## Setting up a database
 
 Heroku supports a postgres database with up to 10,000 rows on the free tier. To enable it, run:
 
@@ -70,3 +74,7 @@ For more information about using Node.js on Heroku, see these Dev Center article
 - [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
 - [Best Practices for Node.js Development](https://devcenter.heroku.com/articles/node-best-practices)
 - [Using WebSockets on Heroku with Node.js](https://devcenter.heroku.com/articles/node-websockets)
+
+## Next steps
+
+When you're ready to move onto labs, continue the instructions at [https://github.com/decodedco/labs](https://github.com/decodedco/labs)
