@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Monitors for probe requests on channels 1-13
+
 interface="wlan0"
 
 ifconfig $interface down
