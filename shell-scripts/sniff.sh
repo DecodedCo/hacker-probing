@@ -6,7 +6,7 @@ ifconfig $interface down
 iwconfig $interface mode monitor
 ifconfig $interface up
 
-for channel in seq `1 13`; do
+for channel in $(seq 1 13); do
   iwconfig $interface channel $channel
   # disable mac name resolution by giving -n
   tshark -a duration:10 -i $interface subtype probereq 2>/dev/null \
