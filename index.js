@@ -38,8 +38,6 @@ app.use(function(request, response, next) {
 app.post('/', upload.single('data'), function(req, res) {
   var incomingData = req.file.buffer.toString();
   // get fresh copy of db
-  console.log("Received POST with data");
-
   fs.readFile('ssids.json', function (err, data) {
     if (err) throw err;
     var ssids = JSON.parse(data);
@@ -49,6 +47,7 @@ app.post('/', upload.single('data'), function(req, res) {
     });
     converter.fromString(incomingData, function(err,parsedData){
       if (err) throw err;
+      console.log("Received ",parsedData.length, " items");
       // MVP: just tally list of SSIDs by number
       parsedData.forEach(function(ssid) {
         if (ssid.SSID in ssids) {
@@ -60,6 +59,7 @@ app.post('/', upload.single('data'), function(req, res) {
 
       fs.writeFile('ssids.json', JSON.stringify(ssids), function(err) {
         if (err) throw err;
+        console.log("Saved to disk");
         res.end("Om nom nom\n");
       });
 

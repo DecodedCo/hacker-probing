@@ -5,5 +5,9 @@
 # Where the API sits
 server="amadeus:5000"
 
-./sniff.sh | sed -e 's/ /,/' > output.log
-curl -F data=@output.log $server
+echo "Starting loop - CTRL-C to stop"
+
+while true; do
+  ./sniff.sh | sed -e 's/ /,/' > output.log
+  curl -F data=@output.log $server
+done
