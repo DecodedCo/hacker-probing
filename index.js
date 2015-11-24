@@ -1,5 +1,9 @@
 var express = require('express');
 var app = express();
+var multer = require('multer');
+var upload = multer();
+var Converter = require("csvtojson").Converter;
+var fs = require('fs');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -15,12 +19,12 @@ app.use(function(request, response, next) {
     ipAddr = request.connection.remoteAddress;
   }
   // Allow access to labs
-  allowed_ips = ['::1','127.0.0.1','localhost','::ffff:127.0.0.1'];
+  allowed_ips = ['::1','127.0.0.1','localhost','::ffff:127.0.0.1','::ffff:172.16.1.201'];
   if (ipAddr === process.env.LABS_IP || allowed_ips.indexOf(ipAddr) != -1) {
     next();
   } else {
     response.status(403);
-    response.send('Direct access forbidden');
+    response.send('Direct access forbidden', ipAddr);
     response.end();
   }
 })
@@ -28,35 +32,39 @@ app.use(function(request, response, next) {
 | OK, CARRY ON... |
 \*****************/
 
-app.use(express.static(__dirname + '/public'));
+app.post('/', upload.single('data'), function(req, res) {
+  var incomingData = req.file.buffer.toString();
+  // get fresh copy of db
+  console.log("Received POST with data");
 
-// views is directory for all template files
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-
-app.get('/', function(request, response) {
-  response.render('pages/index');
-});
-
-var pg = require('pg');
-
-app.get('/db', function(request, response) {
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    if (!client) {
-      message = "Database connection failed, try setting DATABASE_URL";
-      console.error(message + " - " + err);
-      response.send(message);
-    } else {
-      client.query('SELECT * FROM test_table', function(err, result) {
-        done();
-        if (err)
-         { console.error(err); response.send("Error " + err); }
-        else
-         { response.render('pages/db', {results: result.rows} ); }
+  fs.readFile('ssids.json', function (err, data) {
+    if (err) throw err;
+    var ssids = JSON.parse(data);
+    var converter = new Converter({
+      noheader: true,
+      headers: ["MAC", "SSID"]
+    });
+    converter.fromString(incomingData, function(err,parsedData){
+      if (err) throw err;
+      // MVP: just tally list of SSIDs by number
+      parsedData.forEach(function(ssid) {
+        if (ssid.SSID in ssids) {
+          ssids[ssid.SSID] += 1;
+        } else {
+          ssids[ssid.SSID] = 1;
+        }
       });
-    }
+
+      fs.writeFile('ssids.json', JSON.stringify(ssids), function(err) {
+        if (err) throw err;
+        res.end("Om nom nom\n");
+      });
+
+    });
+
   });
-})
+
+});
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));

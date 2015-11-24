@@ -1,22 +1,22 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.1.4",
-  "description": "A sample Node.js app using Express 4",
+  "name": "hacker-probing",
+  "version": "0.0.1",
+  "description": "App to visualize probe request sniffing",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "pg": "4.x",
-    "ejs": "^2.3.1",
-    "express": "~4.9.x"
+    "csvtojson": "^0.4.5",
+    "express": "~4.9.x",
+    "multer": "^1.1.0"
   },
   "engines": {
     "node": "0.12.2"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://github.com/DecodedCo/hacker-probing"
   },
   "keywords": [
     "node",
