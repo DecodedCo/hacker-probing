@@ -12,5 +12,6 @@ for channel in $(seq 1 13); do
   tshark -a duration:10 -i $interface subtype probereq 2>/dev/null \
   | grep -v "SSID=Broadcast" \
   | awk '{print $3 " " $13 " " $14 " " $15 " " $16 " " $17 " " $18 " " $19}' \
+  | sed -e 's/ *$//g' \
   | sed -e 's/SSID\=//g'
 done
