@@ -1,3 +1,6 @@
+// example curl:
+// curl -F data=@output.log ip:5000
+
 var express = require('express');
 var app = express();
 var multer = require('multer');
