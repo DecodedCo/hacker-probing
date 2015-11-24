@@ -1,80 +1,35 @@
-# labs-js
+# hacker-probing
 
-A barebones Node.js app for labs using [Express 4](http://expressjs.com/).
+Suite to allow visualization of probe requests from devices
 
-This application supports the [Getting Started with Node on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs) article - check it out.
+## Background
 
-## Prerequisities
+Everytime you connect to a new WiFi network, and hit "remember network" (often by default), your device will subsequently send out probe requests with ALL the SSID names it has connected to previously, in case they are nearby.
 
-1. You have already started following the instructions at [https://github.com/decodedco/labs](https://github.com/decodedco/labs)
-2. You have a \<project-category\> and \<project-name\> for your project
-2. You have a \<project-remote\> from your project repository (e.g. `git@github.com:DecodedCo/yourproject.git`)
-1. You have [Node.js](http://nodejs.org/) installed.
+This is information leakage for an attacker - if captured, they can either create a fake network with an SSID your device will connect to, or they can read the SSIDs and learn that, for example, you stay in particular Hotels, or connect to particular WiFi airport hotspots.
 
-## Running Locally
+## Architecture
 
-```sh
-$ git clone git@github.com:decodedco/labs-js <project-category>-<project-name>
-$ cd <project-category>-<project-name>
-$ git remote rm origin # so you don't change the sample site
-$ git remote add origin <project-remote> # switches to your new repo
-$ npm install
-$ npm start
-```
+There are 2 main components to this suite:
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+### Shell scripts to collect the Probe Requests
 
-## Setting up a database
+In `shell-scripts` you will find two shell scripts to collect the probe requests using a WiFi network card that is able to go into monitor mode.
 
-Heroku supports a postgres database with up to 10,000 rows on the free tier. To enable it, make sure you have the [Heroku Toolbet](https://toolbelt.heroku.com/) installed and run:
+### Node API and Frontend
 
-```sh
-heroku addons:create heroku-postgresql:hobby-dev
-```
+To store and visualize the probe requests through a web frontend (so you could, for example, leave the sniffing device on a Raspberry Pi), there is a node.js frontend.
 
-To run commands on the database (e.g. to create tables):
-```sh
-heroku pg:psql
-```
+`npm install`
 
-### Local db setup
+`npm start`
 
-Install and open [postgres.app](http://postgresapp.com/)
+* `/` contains a POST endpoint for storing probe requests, sent from the shell scripts
+* `/api/` is a GET request for visualizing the JSON of SSIDs requested
+* `/delete/` is a GET endpoint for clearing all requests
 
-Create a database:
+## Usage
 
-```sh
-$ psql
-$ create database <project-category>_<project-name>;
-$ <Ctrl>+<d> # to exit postgres shell
-```
-
-Setup your environment variable (**this needs to be run for each new terminal session**)
-
-```sh
-$ export DATABASE_URL=postgres://localhost:5432/<project-category>_<project-name>
-```
-
-Restart your local server:
-
-```sh
-$ npm start
-```
-
-A database connection example is at [localhost:5000/db](http://localhost:5000/db) (You'll need to create a table with data - see the [heroku tutorial page](https://devcenter.heroku.com/articles/getting-started-with-nodejs#provision-a-database) for more on this.)
-
-The code for connecting to the database is in `index.js`.
-
-## Documentation
-
-For more information about using Node.js on Heroku, see these Dev Center articles:
-
-- [Getting Started with Node.js on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
-- [Heroku Node.js Support](https://devcenter.heroku.com/articles/nodejs-support)
-- [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
-- [Best Practices for Node.js Development](https://devcenter.heroku.com/articles/node-best-practices)
-- [Using WebSockets on Heroku with Node.js](https://devcenter.heroku.com/articles/node-websockets)
-
-## Next steps
-
-When you're ready to move onto labs, continue the instructions at [https://github.com/decodedco/labs](https://github.com/decodedco/labs)
+1. Run `./upload.sh` shell script on your sniffing device, which will need two network interfaces - one for sniffing, and one for posting the data to the API
+2. Run the API to store data
+3. View `/` in the browser to see a breakdown of access points requested.
