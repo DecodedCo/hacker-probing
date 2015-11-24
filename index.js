@@ -35,6 +35,22 @@ app.use(function(request, response, next) {
 | OK, CARRY ON... |
 \*****************/
 
+app.get('/api/', function(req, res) {
+  fs.readFile('ssids.json', function (err, data) {
+    if (err) throw err;
+    res.json(JSON.parse(data));
+  });
+});
+
+// make this a get request so it's easy to hit via a browser, rather than the better DELETE request
+app.get('/delete/', function(req, res) {
+  fs.writeFile('ssids.json', "{}", function(err) {
+        if (err) throw err;
+        console.log("Emptied ssid file");
+        res.end("Deleted\n");
+  });
+});
+
 app.post('/', upload.single('data'), function(req, res) {
   var incomingData = req.file.buffer.toString();
   // get fresh copy of db
