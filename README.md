@@ -26,8 +26,8 @@ To store and visualize the probe requests through a web frontend (so you could, 
 
 * `GET /` will eventually contain the frontend for visualizing the data stored
 * `GET /api/` is an endpoint which points to other available endpoints:
-  * `POST /api/data/` will process the data sent from the shellscripts
-  * `DELETE /api/data/` will clear currently stored data
+  * `POST /api/` will process the data sent from the shellscripts
+  * `DELETE /api/` will clear currently stored data
   * `GET /api/ssids/` will return a list of SSIDs by count requested
   * `GET /api/users/` will return a list of MACs with SSIDs requested per MAC
 

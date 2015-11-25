@@ -51,8 +51,13 @@ app.get('/api/users/', function(req, res) {
   });
 });
 
+// Feedback on available endpoints
+app.get('/api/', function(req, res) {
+  res.json( { "Available endpoints": ["GET /api/ssids/", "GET /api/users/", "POST /api/", "DELETE /api/"] } );
+});
+
 // Clear out data
-app.delete('/api/data/', function(req, res) {
+app.delete('/api/', function(req, res) {
   fs.writeFile('ssids.json', "{}", function(err) {
     if (err) throw err;
     console.log("Emptied ssid file");
@@ -65,7 +70,7 @@ app.delete('/api/data/', function(req, res) {
 });
 
 // Process incoming data and store
-app.post('/api/data/', upload.single('data'), function(req, res) {
+app.post('/api/', upload.single('data'), function(req, res) {
   // convert file upload to string
   var incomingData = req.file.buffer.toString();
   // get fresh copy of current stored ssids
@@ -129,11 +134,6 @@ app.post('/api/data/', upload.single('data'), function(req, res) {
       });
     });
   });
-});
-
-// Feedback on available endpoints
-app.get('/api/', function(req, res) {
-  res.json( { "Available endpoints": ["GET /api/ssids/", "GET /api/users/", "POST /api/data/", "DELETE /api/data/"] } );
 });
 
 // Serve front page
