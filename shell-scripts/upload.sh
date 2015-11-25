@@ -3,7 +3,7 @@
 # Reads in MAC SSID from sniff.sh and prepares for upload
 
 # Where the API sits
-server="amadeus:5000"
+server="YOURIP:5000/api/collect/"
 
 echo "Starting loop - CTRL-C to stop"
 

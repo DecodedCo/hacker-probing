@@ -24,9 +24,12 @@ To store and visualize the probe requests through a web frontend (so you could, 
 
 `npm start`
 
-* `/` contains a POST endpoint for storing probe requests, sent from the shell scripts
-* `/api/` is a GET request for visualizing the JSON of SSIDs requested
-* `/delete/` is a GET endpoint for clearing all requests
+* `GET /` will eventually contain the frontend for visualizing the data stored
+* `GET /api/` is an endpoint which points to other available endpoints:
+  * `GET /api/delete/` will reset the data stored
+  * `POST /api/collect/` will process the data sent from the shellscripts
+  * `GET /api/ssids/` will return a list of SSIDs by count requested
+  * `GET /api/users/` will return a list of MACs with SSIDs requested per MAC
 
 ## Usage
 
