@@ -133,7 +133,7 @@ app.post('/api/data/', upload.single('data'), function(req, res) {
 
 // Feedback on available endpoints
 app.get('/api/', function(req, res) {
-  res.json( { "Availabile endpoints": ["GET /api/ssids/", "GET /api/users/", "POST /api/data/", "DELETE /api/data/"] } );
+  res.json( { "Available endpoints": ["GET /api/ssids/", "GET /api/users/", "POST /api/data/", "DELETE /api/data/"] } );
 });
 
 // Serve front page
