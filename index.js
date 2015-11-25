@@ -1,5 +1,5 @@
 // example curl:
-// curl -F data=@output.log ip:5000/api/collect/
+// curl -F data=@output.log ip:5000/api/data/
 
 var express = require('express');
 var app = express();
@@ -52,8 +52,7 @@ app.get('/api/users/', function(req, res) {
 });
 
 // Clear out data
-// make this a get request so it's easy to hit via a browser, rather than the better DELETE request
-app.get('/api/delete/', function(req, res) {
+app.delete('/api/data/', function(req, res) {
   fs.writeFile('ssids.json', "{}", function(err) {
     if (err) throw err;
     console.log("Emptied ssid file");
@@ -66,7 +65,7 @@ app.get('/api/delete/', function(req, res) {
 });
 
 // Process incoming data and store
-app.post('/api/collect/', upload.single('data'), function(req, res) {
+app.post('/api/data/', upload.single('data'), function(req, res) {
   // convert file upload to string
   var incomingData = req.file.buffer.toString();
   // get fresh copy of current stored ssids
@@ -134,7 +133,7 @@ app.post('/api/collect/', upload.single('data'), function(req, res) {
 
 // Feedback on available endpoints
 app.get('/api/', function(req, res) {
-  res.json( { "Availabile endpoints": ["GET /api/ssids/", "GET /api/users/", "GET /api/delete/", "POST /api/collect/"] } );
+  res.json( { "Availabile endpoints": ["GET /api/ssids/", "GET /api/users/", "POST /api/data/", "DELETE /api/data/"] } );
 });
 
 // Serve front page

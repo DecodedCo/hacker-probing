@@ -26,13 +26,14 @@ To store and visualize the probe requests through a web frontend (so you could, 
 
 * `GET /` will eventually contain the frontend for visualizing the data stored
 * `GET /api/` is an endpoint which points to other available endpoints:
-  * `GET /api/delete/` will reset the data stored
-  * `POST /api/collect/` will process the data sent from the shellscripts
+  * `POST /api/data/` will process the data sent from the shellscripts
+  * `DELETE /api/data/` will clear currently stored data
   * `GET /api/ssids/` will return a list of SSIDs by count requested
   * `GET /api/users/` will return a list of MACs with SSIDs requested per MAC
 
 ## Usage
 
-1. Run `./upload.sh` shell script on your sniffing device, which will need two network interfaces - one for sniffing, and one for posting the data to the API
-2. Run the API to store data
-3. View `/` in the browser to see a breakdown of access points requested.
+1. Start the node API using `npm install && npm start`
+2. Update `upload.sh` with the URL of your node API instance and check other params
+3. Run the `./upload.sh` shell script on your sniffing device, which will need two network interfaces - one for sniffing, and one for posting the data to the API
+4. View `/` in the browser to see a breakdown of access points requested.

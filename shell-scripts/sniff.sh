@@ -1,19 +1,22 @@
 #!/bin/bash
 
-# Monitors for probe requests on channels 1-13
+# Monitors for probe requests on specified channel
+# Usage: sniff.sh interface channel
+# e.g. sniff.sh wlan0 1
 
-interface="wlan0"
+if [ -z $2 ]; then
+  echo "Usage: " `basename "$0"` " interface channel"
+  exit 1
+fi
 
-ifconfig $interface down
-iwconfig $interface mode monitor
-ifconfig $interface up
+interface=$1
+channel=$2
 
-for channel in $(seq 1 13); do
-  iwconfig $interface channel $channel
-  # disable mac name resolution by giving -n
-  tshark -a duration:10 -i $interface subtype probereq 2>/dev/null \
-  | grep -v "SSID=Broadcast" \
-  | awk '{print $3 " " $13 " " $14 " " $15 " " $16 " " $17 " " $18 " " $19}' \
-  | sed -e 's/ *$//g' \
-  | sed -e 's/SSID\=//g'
-done
+iwconfig $interface channel $channel
+
+# disable mac name resolution by passing -n to tshark
+tshark -a duration:10 -i $interface subtype probereq 2>/dev/null \
+| grep -v "SSID=Broadcast" \
+| awk '{print $3 " " $13 " " $14 " " $15 " " $16 " " $17 " " $18 " " $19}' \
+| sed -e 's/ *$//g' \
+| sed -e 's/SSID\=//g'
