@@ -137,6 +137,9 @@ app.get('/api/', function(req, res) {
   res.json( { "Availabile endpoints": ["GET /api/ssids/", "GET /api/users/", "GET /api/delete/", "POST /api/collect/"] } );
 });
 
+// Serve front page
+app.use(express.static('public'));
+
 // Switch it on
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
