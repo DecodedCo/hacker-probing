@@ -1,5 +1,4 @@
-{
-  "HP0737C1": 13,
+{"HP0737C1": 13,
   "GCcommunity": 10,
   "CH101": 22,
   "GCguest": 7,
