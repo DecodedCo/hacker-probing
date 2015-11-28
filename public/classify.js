@@ -1,9 +1,12 @@
-/*var req = new XMLHttpRequest();
-req.open("GET", "binned.js");
-req.overrideMimeType("application/json");
-req.send(null);*/
+//var req = new XMLHttpRequest();
+//req.open("GET", "binned.js");
+//req.overrideMimeType("application/json");
+//req.send(null);
+
+//require(["underscore"]);
 
 var JSON;
+var JSONlist;
 
 //a dictionary for words to find in SSID names
 var dictionary = {
@@ -73,17 +76,84 @@ $(window).on('JSONready', function(){
 	 	//sorts the array according to the index value
 	 	data.networks = _.sortBy(data.networks, "index");
 
+	 	//build the JSON object for sunburst visualization
+	 	var root = {"name": "root", "children": []};
+	 	var parentcount = 0;
+	 	var childcount = 0;
+	 	for(i=0; i < data.networks.length; i++){
+	 		if(i==0){
+	 			root.children[parentcount] = {"name":data.networks[i].type, "children":[]};
+	 			root.children[parentcount].children[childcount] = {"name":data.networks[i].name,"size":data.networks[i].hits};
+	 			childcount++;
+	 		} else {
+	 			if(data.networks[i].index == data.networks[i-1].index){
+	 				root.children[parentcount].children[childcount] = {"name":data.networks[i].name,"size":data.networks[i].hits};
+	 				childcount++;
+	 			} else {
+	 				parentcount++;
+	 				childcount = 0;
+	 				root.children[parentcount] = {"name":data.networks[i].type, "children":[]};
+	 				root.children[parentcount].children[childcount] = {"name":data.networks[i].name,"size":data.networks[i].hits};
+	 				childcount++;
+	 			}
+	 		}
+	 	}
+	 	//console.log(root);
+
+		/*fs.writeFile('message.txt', 'Hello Node.js', function (err) {
+		  if (err) throw err;
+		  console.log('It\'s saved!');
+		});*/
+
 	 	//builds a list of networks with number of hits and added type property to display on webapge
 	 	for(i=0; i < data.networks.length; i++){
-	 		toWrite += data.networks[i].name+': '+data.networks[i].hits+' - '+data.networks[i].type+' ('+data.networks[i].index+')<br>';
+	 		toWrite += '{"name":"'+data.networks[i].name+'","hits":'+data.networks[i].hits+',"type":"'+data.networks[i].type+'","index":'+data.networks[i].index+'},<br>';
 	 	};
 	 	
 	 	//writes the list to the div with id of focus
 	 	document.getElementById("focus").innerHTML = toWrite;
  });
 
-//$.getJSON('binned-modified.js', function(response){
+$(window).on('JSONlistready', function(){
+ 	var data = {"nodes":[], "links":[]};
+ 	var keys = _.keys(JSONlist);
+ 	var values = _.values(JSONlist);
+ 	
+ 	//remake raw data into better JSON
+ 	var raw = {};
+ 	for(i=0; i < keys.length; i++){
+ 		raw[i] = {"name":keys[i],"networks":values[i]};
+ 	}
+
+ 	//produces a list of unique ssids from the nested list
+ 	var uniquevalues = _.uniq(_.flatten(_.values(JSONlist)));
+ 	
+ 	//produces nodes from mac list
+ 	for(i=0; i < keys.length; i++){
+ 		data.nodes[i] = {"name":keys[i], "group":1};
+ 	}
+ 	 	
+ 	//produces links list
+ 	for(i=0; i < keys.length; i++){
+ 		for(j=0; j < raw[i].networks.length; j++){
+ 			for(k=0; k < keys.length; k++){
+ 				for(l=0; l < raw[k].networks.length; l++){
+ 					if(raw[i].networks[j] == raw[k].networks[l] && i !== k){
+ 						data.links.push({"source": _.indexOf(keys,raw[i].name),"target": _.indexOf(keys,raw[k].name),"value":1});
+ 					}
+ 				}
+ 			}
+ 		}
+ 	}
+
+ 	//console.log(data);
+});
+
+$.getJSON('raw.js', function(response){
+       JSONlist = response;
+       $(window).trigger('JSONlistready');
+});
 $.getJSON('binned.js', function(response){
        JSON = response;
        $(window).trigger('JSONready');
- });
+});
