@@ -68,8 +68,13 @@ $(window).on('JSONready', function(){
 	 				data.networks[i].index = k+1;
 	 			}
 	 		}
+	 	};
 
-	 		//builds a list of networks with number of hits and added type property to display on webapge
+	 	//sorts the array according to the index value
+	 	data.networks = _.sortBy(data.networks, "index");
+
+	 	//builds a list of networks with number of hits and added type property to display on webapge
+	 	for(i=0; i < data.networks.length; i++){
 	 		toWrite += data.networks[i].name+': '+data.networks[i].hits+' - '+data.networks[i].type+' ('+data.networks[i].index+')<br>';
 	 	};
 	 	
