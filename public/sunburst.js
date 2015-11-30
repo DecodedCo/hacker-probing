@@ -1,118 +1,3 @@
-//var req = new XMLHttpRequest();
-//req.open("GET", "binned.js");
-//req.overrideMimeType("application/json");
-//req.send(null);
-
-//require(["underscore"]);
-
-var JSON;
-var JSONlist;
-
-//a dictionary for words to find in SSID names
-var dictionary = {
-	"list":[
-		{"title":"home","type":"home"},
-		{"title":"public","type":"public"},
-		{"title":"office","type":"office"},
-		{"title":"hotel","type":"hotel"},
-		{"title":"food","type":"food"},
-		{"title":"Decoded","type":"office"},
-		{"title":"We Work","type":"office"},
-		{"title":"Buzzfeed","type":"office"},
-		{"title":"Wall Street","type":"office"},
-		{"title":"NYPL","type":"public"},
-		{"title":"Sheraton","type":"hotel"},
-		{"title":"GuyGallard","type":"food"},
-		{"title":"Javits","type":"public"},
-		{"title":"Starbucks","type":"public"}
-	]
-}
-
-//collect the various categories into a deduplicated array
-var categories = [];
-for(i=0; i<dictionary.list.length; i++){
-	categories.push(dictionary.list[i].type);
-}
-categories = _.uniq(categories);
-//add a category for unclassified networks
-categories.push("unknown");
-
-var data = {"networks":[]};
-
-$(window).on('JSONready', function(){
- 		//var toWrite = '';
- 		//separate keys and values into separate arrays
- 		var keys = _.keys(JSON);
- 		var values = _.values(JSON);
-
- 		//recombine into JSON object
- 		for(i=0; i < keys.length; i++){
- 			data.networks[i] = {"name":keys[i],"hits":values[i]};
- 		}
-
-	 	for(i=0; i < data.networks.length; i++){
-	 		for(j=0; j < dictionary.list.length; j++){
-	 			//makes a new regular expression from the dictionary list to test against the networks list and removes spaces
-	 			var match = new RegExp(dictionary.list[j].title.replace(" ",""),"i");
-	 			
-	 			//tests the network names against the dictionary and appends the type of network to the network list if found
-	 			if(match.test(data.networks[i].name.replace(" ", ""))===true){
-	 				data.networks[i].type = dictionary.list[j].type;
-	 			}
-	 		}
-	 		//if the network type isn't matched against the dictionary, set type to unknown
-	 		if(data.networks[i].type === undefined){
-	 			data.networks[i].type = "unknown";
-	 		}
-
-	 		//gives a numerical value to each type of network - useful for d3 visualization later
-	 		for(k=0; k < categories.length; k++){
-	 			if(data.networks[i].type == categories[k]){
-	 				data.networks[i].index = k+1;
-	 			}
-	 		}
-	 	};
-
-	 	//sorts the array according to the index value
-	 	data.networks = _.sortBy(data.networks, "index");
-
-	 	//build the JSON object for sunburst visualization
-	 	var root = {"name": "root", "children": []};
-	 	var parentcount = 0;
-	 	var childcount = 0;
-	 	for(i=0; i < data.networks.length; i++){
-	 		if(i==0){
-	 			root.children[parentcount] = {"name":data.networks[i].type, "children":[]};
-	 			root.children[parentcount].children[childcount] = {"name":data.networks[i].type,"size":data.networks[i].hits,"label":data.networks[i].name};
-	 			childcount++;
-	 		} else {
-	 			if(data.networks[i].index == data.networks[i-1].index){
-	 				root.children[parentcount].children[childcount] = {"name":data.networks[i].type,"size":data.networks[i].hits,"label":data.networks[i].name};
-	 				childcount++;
-	 			} else {
-	 				parentcount++;
-	 				childcount = 0;
-	 				root.children[parentcount] = {"name":data.networks[i].type, "children":[]};
-	 				root.children[parentcount].children[childcount] = {"name":data.networks[i].type,"size":data.networks[i].hits,"label":data.networks[i].name};
-	 				childcount++;
-	 			}
-	 		}
-	 	}
-	 	//console.log(root);
-
-		/*fs.writeFile('message.txt', 'Hello Node.js', function (err) {
-		  if (err) throw err;
-		  console.log('It\'s saved!');
-		});*/
-
-	 	//builds a list of networks with number of hits and added type property to display on webapge
-	 	/*for(i=0; i < data.networks.length; i++){
-	 		toWrite += '{"name":"'+data.networks[i].name+'","hits":'+data.networks[i].hits+',"type":"'+data.networks[i].type+'","index":'+data.networks[i].index+'},<br>';
-	 	};*/
-	 	
-	 	//writes the list to the div with id of focus
-	 	//document.getElementById("focus").innerHTML = toWrite;
-
 // Dimensions of sunburst.
 var width = 750;
 var height = 600;
@@ -126,11 +11,11 @@ var b = {
 // Mapping of step names to colors.
 var colors = {
   "home": "#5687d1",
-  "public": "#7b615c",
-  "office": "#de783b",
-  "food": "#6ab975",
-  "hotel": "#a173d1",
-  "unknown": "#bbbbbb"
+  "product": "#7b615c",
+  "search": "#de783b",
+  "account": "#6ab975",
+  "other": "#a173d1",
+  "end": "#bbbbbb"
 };
 
 // Total size of all segments; we set this later, after loading the data.
@@ -153,8 +38,13 @@ var arc = d3.svg.arc()
     .innerRadius(function(d) { return Math.sqrt(d.y); })
     .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
-var json = root;
-createVisualization(json);
+// Use d3.text and d3.csv.parseRows so that we do not need to have a header
+// row, and can receive the csv as an array of arrays.
+d3.text("sunburst.csv", function(text) {
+  var csv = d3.csv.parseRows(text);
+  var json = buildHierarchy(csv);
+  createVisualization(json);
+});
 
 // Main function to draw and set up the visualization, once we have the data.
 function createVisualization(json) {
@@ -370,116 +260,46 @@ function toggleLegend() {
   }
 }
 
-
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$(window).on('JSONlistready', function(){
- 	var data = {"nodes":[], "links":[]};
- 	var keys = _.keys(JSONlist);
- 	var values = _.values(JSONlist);
- 	
- 	//remake raw data into better JSON
- 	var raw = {};
- 	for(i=0; i < keys.length; i++){
- 		raw[i] = {"name":keys[i],"networks":values[i]};
+// Take a 2-column CSV and transform it into a hierarchical structure suitable
+// for a partition layout. The first column is a sequence of step names, from
+// root to leaf, separated by hyphens. The second column is a count of how 
+// often that sequence occurred.
+function buildHierarchy(csv) {
+  var root = {"name": "root", "children": []};
+  for (var i = 0; i < csv.length; i++) {
+    var sequence = csv[i][0];
+    var size = +csv[i][1];
+    if (isNaN(size)) { // e.g. if this is a header row
+      continue;
+    }
+    var parts = sequence.split("-");
+    var currentNode = root;
+    for (var j = 0; j < parts.length; j++) {
+      var children = currentNode["children"];
+      var nodeName = parts[j];
+      var childNode;
+      if (j + 1 < parts.length) {
+   // Not yet at the end of the sequence; move down the tree.
+ 	var foundChild = false;
+ 	for (var k = 0; k < children.length; k++) {
+ 	  if (children[k]["name"] == nodeName) {
+ 	    childNode = children[k];
+ 	    foundChild = true;
+ 	    break;
+ 	  }
  	}
-
- 	//produces a list of unique ssids from the nested list
- 	var uniquevalues = _.uniq(_.flatten(_.values(JSONlist)));
- 	
- 	//produces nodes from mac list
- 	for(i=0; i < keys.length; i++){
- 		data.nodes[i] = {"name":keys[i], "group":1};
+  // If we don't already have a child node for this branch, create it.
+ 	if (!foundChild) {
+ 	  childNode = {"name": nodeName, "children": []};
+ 	  children.push(childNode);
  	}
- 	 	
- 	//produces links list
- 	for(i=0; i < keys.length; i++){
- 		for(j=0; j < raw[i].networks.length; j++){
- 			for(k=0; k < keys.length; k++){
- 				for(l=0; l < raw[k].networks.length; l++){
- 					if(raw[i].networks[j] == raw[k].networks[l] && i !== k){
- 						data.links.push({"source": _.indexOf(keys,raw[i].name),"target": _.indexOf(keys,raw[k].name),"value":1});
- 					}
- 				}
- 			}
- 		}
- 	}
-
- 	//console.log(data);
-
-	//d3 network visualization of machines which have connected to a common ssid
-	var width = 960,
-	    height = 500;
-
-	var svg = d3.select("#network").append("svg")
-	    .attr("width", width)
-	    .attr("height", height);
-
-	var force = d3.layout.force()
-	    .gravity(.05)
-	    .distance(100)
-	    .charge(-100)
-	    .size([width, height]);
-
-	force
-	    .nodes(data.nodes)
-	    .links(data.links)
-	    .start();
-
-	var link = svg.selectAll(".link")
-	    .data(data.links)
-	    .enter().append("line")
-	    .attr("class", "link");
-
-	var node = svg.selectAll(".node")
-	    .data(data.nodes)
-	    .enter().append("g")
-	    .attr("class", "node")
-	    .call(force.drag);
-
-	node.append("image")
-	    .attr("xlink:href", "https://github.com/favicon.ico")
-	    .attr("x", -8)
-	    .attr("y", -8)
-	    .attr("width", 16)
-	    .attr("height", 16);
-
-	node.append("text")
-	    .attr("dx", 12)
-	    .attr("dy", ".35em")
-	    .text(function(d) { return d.name });
-
-	force.on("tick", function() {
-	    link.attr("x1", function(d) { return d.source.x; })
-	        .attr("y1", function(d) { return d.source.y; })
-	        .attr("x2", function(d) { return d.target.x; })
-	        .attr("y2", function(d) { return d.target.y; });
-
-	    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-	});
-	//END of d3 visualization
-});
-
-$.getJSON('raw.js', function(response){
-       JSONlist = response;
-       $(window).trigger('JSONlistready');
-});
-$.getJSON('binned.js', function(response){
-       JSON = response;
-       $(window).trigger('JSONready');
-});
+ 	currentNode = childNode;
+      } else {
+ 	// Reached the end of the sequence; create a leaf node.
+ 	childNode = {"name": nodeName, "size": size};
+ 	children.push(childNode);
+      }
+    }
+  }
+  return root;
+};

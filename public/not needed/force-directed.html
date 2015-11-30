@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
 <!--
 <!DOCTYPE html>
 <meta charset="utf-8">
@@ -75,8 +78,6 @@ d3.json("raw-modified.js", function(error, graph) {
 
 </script>-->
 
-<!DOCTYPE html>
-<meta charset="utf-8">
 <style>
 
 .link {
@@ -93,8 +94,31 @@ d3.json("raw-modified.js", function(error, graph) {
 <script src="d3.v3.min.js"></script>
 <script>
 
+</script>
+
+<script>
+
+var thing = {
+  "nodes":[
+    {"name":"mac1","group":1},
+    {"name":"mac2","group":1},
+    {"name":"mac3","group":1},
+    {"name":"ssid1","group":2},
+    {"name":"ssid2","group":2},
+    {"name":"ssid3","group":2},
+    {"name":"ssid4","group":2}
+  ],
+  "links":[
+    {"source":3,"target":0,"value":1},
+    {"source":6,"target":0,"value":1},
+    {"source":4,"target":1,"value":1},
+    {"source":5,"target":1,"value":1},
+    {"source":6,"target":2,"value":1}
+  ]
+};
+
 var width = 960,
-    height = 500
+    height = 500;
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
@@ -106,22 +130,23 @@ var force = d3.layout.force()
     .charge(-100)
     .size([width, height]);
 
-d3.json("raw-modified.js", function(error, json) {
-  if (error) throw error;
+//json = JSON.parse(thing);
+//d3.json("raw-modified.js", function(error, json) {
+//  if (error) throw error;
 
   force
-      .nodes(json.nodes)
-      .links(json.links)
+      .nodes(thing.nodes)
+      .links(thing.links)
       .start();
 
   var link = svg.selectAll(".link")
-      .data(json.links)
-    .enter().append("line")
+      .data(thing.links)
+      .enter().append("line")
       .attr("class", "link");
 
   var node = svg.selectAll(".node")
-      .data(json.nodes)
-    .enter().append("g")
+      .data(thing.nodes)
+      .enter().append("g")
       .attr("class", "node")
       .call(force.drag);
 
@@ -145,6 +170,6 @@ d3.json("raw-modified.js", function(error, json) {
 
     node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
   });
-});
+//});
 
 </script>

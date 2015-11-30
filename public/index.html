@@ -1,10 +1,95 @@
 <!DOCTYPE html>
 	<head>
 		<meta charset="utf-8">
-		
+		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+		<style>
+			.link {
+			  stroke: #ccc;
+			}
+			.node text {
+			  pointer-events: none;
+			  font: 10px sans-serif;
+			}
+			body {
+		      font-family: 'Open Sans', sans-serif;
+		      font-size: 12px;
+		      font-weight: 400;
+		      background-color: #fff;
+		      width: 960px;
+		      height: 700px;
+		      margin-top: 10px;
+		    }
+
+		    #main {
+		      float: left;
+		      width: 750px;
+		    }
+
+		    #sidebar {
+		      float: right;
+		      width: 100px;
+		    }
+
+		    #sequence {
+		      width: 600px;
+		      height: 70px;
+		    }
+
+		    #legend {
+		      padding: 10px 0 0 3px;
+		    }
+
+		    #sequence text, #legend text {
+		      font-weight: 600;
+		      fill: #fff;
+		    }
+
+		    #chart {
+		      position: relative;
+		    }
+
+		    #chart path {
+		      stroke: #fff;
+		    }
+
+		    #explanation {
+		      position: absolute;
+		      top: 260px;
+		      left: 305px;
+		      width: 140px;
+		      text-align: center;
+		      color: #666;
+		      z-index: -1;
+		    }
+
+		    #percentage {
+		      font-size: 2.5em;
+		    }
+		</style>
 	</head>
 	<body>
 		<div id="focus"></div>
+		<div id="network"></div>
+		
+		<!--sunburst-->
+		<div id="main">
+	      <div id="sequence"></div>
+	      <div id="chart">
+	        <div id="explanation" style="visibility: hidden;">
+	          <span id="percentage"></span><br/>
+	          of time spent on this network
+	        </div>
+	      </div>
+	    </div>
+	    <div id="sidebar">
+	      <input type="checkbox" id="togglelegend"> Legend<br/>
+	      <div id="legend" style="visibility: hidden;"></div>
+	    </div>
+	    <script type="text/javascript" src="sunburst.js"></script>
+		<!--end of sunburst-->
+
+
+		<script src="d3.v3.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
 		<script src="classify.js"></script>
