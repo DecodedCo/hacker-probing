@@ -7,7 +7,10 @@
 interface="wlan0"
 
 # Where the API sits
-server="YOURIP:5000/api/data/"
+server="http://YOURIP:5000/api/"
+
+# Pass in any certificate details as needed
+curl_opts=""
 
 # Get us into monitor mode
 ifconfig $interface down
@@ -21,8 +24,9 @@ echo "Starting loop - CTRL-C to stop"
 
 while true; do
   for channel in `seq 1 13`; do
+    echo "Listening to channel " $channel
     ./sniff.sh $interface $channel | sed -e 's/ /,/' > output.log
     cat output.log >> all_output.log
-    curl -F data=@output.log $server
+    curl $curl_opts -F data=@output.log $server
   done
 done
