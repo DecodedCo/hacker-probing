@@ -87,10 +87,15 @@ app.post('/api/', upload.single('data'), function(req, res) {
       console.log("Received ",parsedData.length, " items");
       // tally list of SSIDs by number
       parsedData.forEach(function(ssid) {
-        if (ssid.SSID in ssids) {
-          ssids[ssid.SSID] += 1;
-        } else {
-          ssids[ssid.SSID] = 1;
+        // make sure SSID has valid name
+        if (typeof ssid.SSID == "string" && ssid.SSID.length > 0) {
+          if (ssid.SSID in ssids) {
+            // Increment existing ssid
+            ssids[ssid.SSID] += 1;
+          } else {
+            // Add new ssid
+            ssids[ssid.SSID] = 1;
+          }
         }
       });
 
@@ -111,16 +116,19 @@ app.post('/api/', upload.single('data'), function(req, res) {
             if (err) throw err;
             // compile a list of ssids by user for network analysis
             parsedData.forEach(function(user) {
-              if (user.MAC in users) {
-                if (users[user.MAC].indexOf(user.SSID) > -1) {
-                  // skip as SSID already noted
+              // check for valid SSID name
+              if (typeof user.SSID == "string" && user.SSID.length > 0) {
+                if (user.MAC in users) {
+                  if (users[user.MAC].indexOf(user.SSID) > -1) {
+                    // skip as SSID already noted
+                  } else {
+                    // add new mac to this user
+                    users[user.MAC].push(user.SSID);
+                  }
                 } else {
-                  // add new mac to this user
-                  users[user.MAC].push(user.SSID);
+                  // create the user with their first ssid
+                  users[user.MAC] = Array(user.SSID);
                 }
-              } else {
-                // create the user with their first ssid
-                users[user.MAC] = Array(user.SSID);
               }
             });
             // save the data
