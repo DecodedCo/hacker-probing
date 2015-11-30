@@ -127,7 +127,7 @@ app.post('/api/', upload.single('data'), function(req, res) {
             fs.writeFile('users.json', JSON.stringify(users), function(err) {
               if (err) throw err;
               console.log("Saved users to disk");
-              res.end("Om nom nom");
+              res.end("Om nom nom\n");
             });
           });
         });
