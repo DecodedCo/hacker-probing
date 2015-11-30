@@ -54,7 +54,7 @@ $(window).on('JSONready', function(){
 	 		for(j=0; j < dictionary.list.length; j++){
 	 			//makes a new regular expression from the dictionary list to test against the networks list and removes spaces
 	 			var match = new RegExp(dictionary.list[j].title.replace(" ",""),"i");
-	 			
+
 	 			//tests the network names against the dictionary and appends the type of network to the network list if found
 	 			if(match.test(data.networks[i].name.replace(" ", ""))===true){
 	 				data.networks[i].type = dictionary.list[j].type;
@@ -108,11 +108,13 @@ $(window).on('JSONready', function(){
 		});*/
 
 	 	//builds a list of networks with number of hits and added type property to display on webapge
-	 	for(i=0; i < 30; i++){
+    maxLength = (data.networks.length > 30) ? 30 : data.networks.length;
+
+	 	for(i=0; i < maxLength; i++){
 	 		//toWrite += '{"name":"'+data.networks[i].name+'","hits":'+data.networks[i].hits+',"type":"'+data.networks[i].type+'","index":'+data.networks[i].index+'},<br>';
       toWrite += '<p><img src="wifi-favicon.png"><span class="networkname">'+data.networks[i].name+'</span> ('+data.networks[i].hits+')</p>';
 	 	};
-	 	
+
 	 	//writes the list to the div with id of focus
 	 	document.getElementById("focus").innerHTML = toWrite;
 
@@ -138,7 +140,7 @@ var colors = {
 };
 
 // Total size of all segments; we set this later, after loading the data.
-var totalSize = 0; 
+var totalSize = 0;
 
 var vis = d3.select("#chart").append("svg:svg")
     .attr("width", width)
@@ -398,7 +400,7 @@ $(window).on('JSONlistready', function(){
  	var values = _.values(JSONlist);
   var newkeys = [];
   var newvalues = [];
- 
+
   //remove keys and values for which there are no common ssids
   //console.log(keys);
   //console.log(values);
@@ -430,12 +432,12 @@ $(window).on('JSONlistready', function(){
 
  	//produces a list of unique ssids from the nested list
  	var uniquevalues = _.uniq(_.flatten(_.values(JSONlist)));
- 	
+
  	//produces nodes from mac list
  	for(i=0; i < keys.length; i++){
  		data.nodes[i] = {"name":keys[i], "group":1};
  	}
- 	 	
+
  	//produces links list
  	for(i=0; i < keys.length; i++){
  		for(j=0; j < raw[i].networks.length; j++){
@@ -504,11 +506,11 @@ $(window).on('JSONlistready', function(){
 	//END of d3 visualization
 });
 
-$.getJSON('raw.js', function(response){
+$.getJSON('api/users/', function(response){
        JSONlist = response;
        $(window).trigger('JSONlistready');
 });
-$.getJSON('binned.js', function(response){
+$.getJSON('api/ssids/', function(response){
        JSON = response;
        $(window).trigger('JSONready');
 });
