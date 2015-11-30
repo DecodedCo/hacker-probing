@@ -40,7 +40,7 @@ categories.push("unknown");
 var data = {"networks":[]};
 
 $(window).on('JSONready', function(){
- 		//var toWrite = '';
+ 		var toWrite = '';
  		//separate keys and values into separate arrays
  		var keys = _.keys(JSON);
  		var values = _.values(JSON);
@@ -74,10 +74,12 @@ $(window).on('JSONready', function(){
 	 	};
 
 	 	//sorts the array according to the index value
-	 	data.networks = _.sortBy(data.networks, "index");
+	 	//data.networks = _.sortBy(data.networks, "hits");
+    data.networks = data.networks.sort( function( a, b ) { return b.hits - a.hits; } )
+    //data.networks = data.networks.reverse;
 
 	 	//build the JSON object for sunburst visualization
-	 	var root = {"name": "root", "children": []};
+	 	/*var root = {"name": "root", "children": []};
 	 	var parentcount = 0;
 	 	var childcount = 0;
 	 	for(i=0; i < data.networks.length; i++){
@@ -97,7 +99,7 @@ $(window).on('JSONready', function(){
 	 				childcount++;
 	 			}
 	 		}
-	 	}
+	 	}*/
 	 	//console.log(root);
 
 		/*fs.writeFile('message.txt', 'Hello Node.js', function (err) {
@@ -106,13 +108,15 @@ $(window).on('JSONready', function(){
 		});*/
 
 	 	//builds a list of networks with number of hits and added type property to display on webapge
-	 	/*for(i=0; i < data.networks.length; i++){
-	 		toWrite += '{"name":"'+data.networks[i].name+'","hits":'+data.networks[i].hits+',"type":"'+data.networks[i].type+'","index":'+data.networks[i].index+'},<br>';
-	 	};*/
+	 	for(i=0; i < 30; i++){
+	 		//toWrite += '{"name":"'+data.networks[i].name+'","hits":'+data.networks[i].hits+',"type":"'+data.networks[i].type+'","index":'+data.networks[i].index+'},<br>';
+      toWrite += '<p><span class="networkname">'+data.networks[i].name+'</span> ('+data.networks[i].hits+') - type: '+data.networks[i].type+'</p>';
+	 	};
 	 	
 	 	//writes the list to the div with id of focus
-	 	//document.getElementById("focus").innerHTML = toWrite;
+	 	document.getElementById("focus").innerHTML = toWrite;
 
+/*
 // Dimensions of sunburst.
 var width = 750;
 var height = 600;
@@ -369,7 +373,7 @@ function toggleLegend() {
     legend.style("visibility", "hidden");
   }
 }
-
+*/
 
 });
 
@@ -423,8 +427,8 @@ $(window).on('JSONlistready', function(){
  	//console.log(data);
 
 	//d3 network visualization of machines which have connected to a common ssid
-	var width = 960,
-	    height = 500;
+	var width = 700,
+	    height = 700;
 
 	var svg = d3.select("#network").append("svg")
 	    .attr("width", width)
