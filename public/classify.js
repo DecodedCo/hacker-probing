@@ -110,7 +110,7 @@ $(window).on('JSONready', function(){
 	 	//builds a list of networks with number of hits and added type property to display on webapge
 	 	for(i=0; i < 30; i++){
 	 		//toWrite += '{"name":"'+data.networks[i].name+'","hits":'+data.networks[i].hits+',"type":"'+data.networks[i].type+'","index":'+data.networks[i].index+'},<br>';
-      toWrite += '<p><span class="networkname">'+data.networks[i].name+'</span> ('+data.networks[i].hits+') - type: '+data.networks[i].type+'</p>';
+      toWrite += '<p><img src="wifi-favicon.png"><span class="networkname">'+data.networks[i].name+'</span> ('+data.networks[i].hits+')</p>';
 	 	};
 	 	
 	 	//writes the list to the div with id of focus
@@ -396,7 +396,32 @@ $(window).on('JSONlistready', function(){
  	var data = {"nodes":[], "links":[]};
  	var keys = _.keys(JSONlist);
  	var values = _.values(JSONlist);
- 	
+  var newkeys = [];
+  var newvalues = [];
+ 
+  //remove keys and values for which there are no common ssids
+  //console.log(keys);
+  //console.log(values);
+  for(i=0; i < keys.length; i++){
+    var keep = 0;
+    for(j=0; j < keys.length-i; j++){
+      for(k=0; k < values[i].length; k++){
+        for(l=0; l < values[j].length; l++){
+          if(values[i][k] == values[j][l]){
+            keep = 1;
+          }
+        }
+      }
+    }
+    if(keep == 1){
+      newkeys.push(keys[i]);
+      newvalues.push(values[i]);
+    }
+  }
+
+  keys = newkeys;
+  values = newvalues;
+
  	//remake raw data into better JSON
  	var raw = {};
  	for(i=0; i < keys.length; i++){
@@ -427,7 +452,7 @@ $(window).on('JSONlistready', function(){
  	//console.log(data);
 
 	//d3 network visualization of machines which have connected to a common ssid
-	var width = 700,
+	var width = 800,
 	    height = 700;
 
 	var svg = d3.select("#network").append("svg")
@@ -457,7 +482,7 @@ $(window).on('JSONlistready', function(){
 	    .call(force.drag);
 
 	node.append("image")
-	    .attr("xlink:href", "https://github.com/favicon.ico")
+	    .attr("xlink:href", "mobile-favicon.png")
 	    .attr("x", -8)
 	    .attr("y", -8)
 	    .attr("width", 16)
