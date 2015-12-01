@@ -454,8 +454,8 @@ $(window).on('JSONlistready', function(){
  	//console.log(data);
 
 	//d3 network visualization of machines which have connected to a common ssid
-	var width = 800,
-	    height = 800;
+	var width = 0.48*window.innerWidth,
+	    height = window.innerHeight - 100;
 
 	var svg = d3.select("#network").append("svg")
 	    .attr("width", width)

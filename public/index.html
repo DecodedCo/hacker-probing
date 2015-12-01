@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
-		<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+		<!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600"> -->
+		<link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+		<!-- <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'> -->
 		<style>
 			body{
-				background-color: #FFF800;
+				background-color: black;
+				color: darkgreen;
+				font-family: 'Source Code Pro', ;
+				height: 95%;
+				margin: 0;
+				padding: 10px;
+			}
+			html {
+				height: 100%;
+				margin: 0;
 			}
 			.link {
-			  stroke: #ccc;
+			  stroke: darkgreen;
 			}
 			.node text {
 			  pointer-events: none;
@@ -16,25 +26,28 @@
 			}
 			p {
 				margin: 0px;
-				font-family: 'Open Sans', sans-serif;
-				font-size: 20px;
+				font-size: 2em;
 			}
 			.networkname {
 				font-weight: bold;
 			}
 			#focus {
-				width: 33%;
-				display: inline-block;
+				width: 50%;
 				vertical-align: top;
+				display: inline-block;
+				height: 90%;
+				overflow: scroll;
 			}
 			#network{
-				width: 66%;
+				width: 48%;
+				height: 90%;
+				border: 2px solid black;
+				background-color: gray;
 				display: inline-block;
-				border: 2px solid #CCC;
-				background-color: #FFF;
 			}
 			img {
 				height: 16px;
+				margin-right: 5px;
 			}
 			/*body {
 		      font-family: 'Open Sans', sans-serif;
@@ -96,7 +109,7 @@
 	<body>
 		<div id="focus"></div>
 		<div id="network"></div>
-		
+
 		<!--sunburst-->
 		<!--<div id="main">
 	      <div id="sequence"></div>
