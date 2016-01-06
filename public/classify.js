@@ -130,14 +130,14 @@ $(window).on('JSONlistready', function(){
 
 
 
-//$.getJSON('api/users/', function(response){
-$.getJSON('raw.js', function(response){
+$.getJSON('api/users/', function(response){
+//$.getJSON('raw.js', function(response){
        JSONlist = response;
        $(window).trigger('JSONlistready');
 });
 
-//$.getJSON('api/ssids/', function(response){
-$.getJSON('binned.js', function(response){
+$.getJSON('api/ssids/', function(response){
+//$.getJSON('binned.js', function(response){
        JSON = response;
        $(window).trigger('JSONready');
 });
