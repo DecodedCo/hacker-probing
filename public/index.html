@@ -6,8 +6,8 @@
 		<!-- <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'> -->
 		<style>
 			body{
-				background-color: black;
-				color: darkgreen;
+				background-color: gray; /* black */
+				color: black; /* darkgreen */
 				font-family: 'Source Code Pro', ;
 				height: 95%;
 				margin: 0;
@@ -18,7 +18,7 @@
 				margin: 0;
 			}
 			.link {
-			  stroke: darkgreen;
+			  stroke: white; /* darkgreen */
 			}
 			.node text {
 			  pointer-events: none;
@@ -31,17 +31,15 @@
 			.networkname {
 				font-weight: bold;
 			}
-			#focus {
+			/*#focus {
 				width: 50%;
 				vertical-align: top;
 				display: inline-block;
 				height: 90%;
 				overflow: scroll;
-			}
+			}*/
 			#network{
-				width: 48%;
-				height: 90%;
-				border: 2px solid black;
+				/*width: 48%;*/
 				background-color: gray;
 				display: inline-block;
 			}
@@ -107,7 +105,7 @@
 		</style>
 	</head>
 	<body>
-		<div id="focus"></div>
+		<!--<div id="focus"></div>-->
 		<div id="network"></div>
 
 		<!--sunburst-->
@@ -128,7 +126,7 @@
 		<!--end of sunburst-->
 
 
-		<script src="d3.v3.min.js"></script>
+		<!--<script src="d3.v3.min.js"></script>-->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
 		<script src="classify.js"></script>

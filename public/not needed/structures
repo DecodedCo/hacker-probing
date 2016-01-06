@@ -1,0 +1,16 @@
+[
+	["mac", ["ssid", "ssid"]],
+	["mac", ["ssid", "ssid"]],
+	["mac", ["ssid", "ssid"]],
+	["mac", ["ssid", "ssid"]],
+	["mac", ["ssid", "ssid"]]
+]
+
+
+[
+	["ssid", ["mac", "mac", "mac"]],
+	["ssid", ["mac", "mac", "mac"]],
+	["ssid", ["mac", "mac", "mac"]],
+	["ssid", ["mac", "mac", "mac"]],
+	["ssid", ["mac", "mac", "mac"]]
+]
