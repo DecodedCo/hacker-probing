@@ -158,12 +158,12 @@ $(window).on('JSONlistready', function(){
 
 
 $.when(
-  //$.getJSON('api/users/', function(response){
-  $.getJSON('raw.js', function(response){
+  $.getJSON('api/users/', function(response){
+  //$.getJSON('raw.js', function(response){
     JSONlist = response;
   }),
-  //$.getJSON('api/ssids/', function(response){
-  $.getJSON('binned.js', function(response){
+  $.getJSON('api/ssids/', function(response){
+  //$.getJSON('binned.js', function(response){
     JSON = response;
   })
 ).then(function(){
