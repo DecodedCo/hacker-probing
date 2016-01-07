@@ -120,30 +120,50 @@ $(window).on('JSONlistready', function(){
   uniqueJSON.networks = _.sortBy(uniqueJSON.networks, 'hits').reverse();
 
 
-  // build content for webpage  
+  // build content for webpage
+  toWrite += '<ul>'; 
+
   for(i=0; i < uniqueJSON.networks.length; i++){
-    toWrite += '<p><a name="' + uniqueJSON.networks[i].ssid + '">' + uniqueJSON.networks[i].ssid + ' (' + uniqueJSON.networks[i].hits + ')';
+    toWrite += '<a name="' + uniqueJSON.networks[i].ssid + '"></a><li data-jstree=\'{"icon":"none"}\'><div class="li"><img src="img/wifi-favicon-black.png" class="wifi"> ' + uniqueJSON.networks[i].ssid + ' (' + uniqueJSON.networks[i].hits + ')</div>';
+    toWrite += '<ul>';
+
     for(j=0; j < uniqueJSON.networks[i].macs.length; j++){
-      toWrite += '<p style="margin-left: 30px; font-size: 1.3em;">' + uniqueJSON.networks[i].macs[j].macname + ' [' + uniqueJSON.networks[i].macs[j].ssids.length + ']';
+      toWrite += '<li data-jstree=\'{"icon":"none"}\'><div class="li"><img src="img/mobile-favicon.png" class="mobile"> ' + uniqueJSON.networks[i].macs[j].macname + ' [' + uniqueJSON.networks[i].macs[j].ssids.length + ']</div>';
+        toWrite += '<ul>';
+
       	for(k=0; k < uniqueJSON.networks[i].macs[j].ssids.length; k++){
-      		toWrite += '<p style="margin-left: 60px; font-size: 1em;"><a href="#' + uniqueJSON.networks[i].macs[j].ssids[k] + '">' + uniqueJSON.networks[i].macs[j].ssids[k] + '</a></p>';
+      		toWrite += '<li data-jstree=\'{"icon":"none"}\'><a href="#' + uniqueJSON.networks[i].macs[j].ssids[k] + '"><div class="li"><img src="img/wifi-favicon-black.png" class="wifi"> ' + uniqueJSON.networks[i].macs[j].ssids[k] + '</div></a></li>';
       	}
-      toWrite += '</p>';
-    }
-    toWrite += '</p>';
+
+        toWrite += '</ul>';
+        toWrite += '</li>';
+    } 
+
+    toWrite += '</ul>';
+    toWrite += '</li>';
   };
 
+  toWrite += '</ul>';
+
+  console.log(toWrite);
+  console.log(uniqueJSON);
+
   document.getElementById("network").innerHTML = toWrite;
+
+    $(function() {
+      $('#network').jstree();
+      //$('#network').fancytree({checkbox: true});
+    });
 });
 
 
 $.when(
-  $.getJSON('api/users/', function(response){
-  //$.getJSON('raw.js', function(response){
+  //$.getJSON('api/users/', function(response){
+  $.getJSON('raw.js', function(response){
     JSONlist = response;
   }),
-  $.getJSON('api/ssids/', function(response){
-  //$.getJSON('binned.js', function(response){
+  //$.getJSON('api/ssids/', function(response){
+  $.getJSON('binned.js', function(response){
     JSON = response;
   })
 ).then(function(){

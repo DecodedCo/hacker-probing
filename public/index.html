@@ -4,7 +4,35 @@
 		<!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600"> -->
 		<link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
 		<!-- <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'> -->
-		<style>
+		
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css" />
+	  	
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
+	  	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+	  	<!-- Include Fancytree skin and library -->
+	  	<!--<link href="ui.fancytree.css" rel="stylesheet" type="text/css">
+	  	<script src="jquery.fancytree-all.min.js" type="text/javascript"></script>-->
+
+	  	<style>
+	  	.wifi{
+	  		/*background-image: url("img/wifi-favicon-black.png");*/
+	  		height: 10px;
+	  		width: 10px;
+	  	}
+	  	.mobile{
+	  		/*background-image: url("img/mobile-favicon.png");*/
+	  		height: 12px;
+	  	}
+	  	div.li{
+	  		margin-left: 3px;
+	  		margin-top: -24px;
+	  	}
+	  	.none{
+	  		display: none;
+	  	}
+	  	</style>
+		
+		<!--<style>
 			body{
 				background-color: gray; /* black */
 				color: black; /* darkgreen */
@@ -102,11 +130,12 @@
 		    #percentage {
 		      font-size: 2.5em;
 		    }*/
-		</style>
+		</style>-->
 	</head>
 	<body>
 		<!--<div id="focus"></div>-->
 		<div id="network"></div>
+
 
 		<!--sunburst-->
 		<!--<div id="main">
@@ -127,8 +156,17 @@
 
 
 		<!--<script src="d3.v3.min.js"></script>-->
+		
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+		<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>-->
+		
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 		<script src="classify.js"></script>
+		<!--<script>
+			$('li').click(function() {
+    			$(this).children('ul').toggle();
+    			return false;
+			});
+		</script>-->
 	</body>
 </html>
