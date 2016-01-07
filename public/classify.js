@@ -15,14 +15,17 @@ var uniqueJSON = {"networks":[]};
 
 $(window).on('JSONready', function(){
  		var toWrite = '';
- 		//separate keys and values into separate arrays
- 		var keys = _.keys(JSON);
- 		var values = _.values(JSON);
+ 		
+    /*
+    //separate keys and values into separate arrays
+ 		var binnedkeys = _.keys(JSON);
+ 		var binnedvalues = _.values(JSON);
 
  		//recombine into JSON object
- 		for(i=0; i < keys.length; i++){
- 			binneddata.networks[i] = {"ssid":keys[i],"hits":values[i]};
+ 		for(i=0; i < binnedkeys.length; i++){
+ 			binneddata.networks[i] = {"ssid":binnedkeys[i],"hits":binnedvalues[i]};
  		}
+    */
 
 	 	//builds a list of networks with number of hits and added type property to display on webapge
     maxLength = (data.networks.length > 30) ? 30 : data.networks.length;
@@ -33,7 +36,7 @@ $(window).on('JSONready', function(){
 	 	};
 
 	 	//writes the list to the div with id of focus
-	 	document.getElementById("focus").innerHTML = toWrite;
+	 	//document.getElementById("focus").innerHTML = toWrite;
 
 });
 
@@ -68,9 +71,14 @@ $(window).on('JSONlistready', function(){
   	uniqueJSON.networks[i] = {"ssid":uniquevalues[i], "macs":[]};
   }  
   
-  //for hits
-  //console.log(binneddata);
+  //separate keys and values of JSON file (for hits) into separate arrays
+  var binnedkeys = _.keys(JSON);
+  var binnedvalues = _.values(JSON);
 
+  //recombine into JSON object for hits
+  for(i=0; i < binnedkeys.length; i++){
+    binneddata.networks[i] = {"ssid":binnedkeys[i],"hits":binnedvalues[i]};
+    }
 
   // converts the JSON into an array of ["mac", ["ssid"s]]
 	for(i=0; i < keys.length; i++){
@@ -88,29 +96,31 @@ $(window).on('JSONlistready', function(){
   		}
   	}
 
-  	// adds list of ssids connected to for each mac name
-  	for (i=0; i < uniqueJSON.networks.length; i++){
-  		for(j=0; j < uniqueJSON.networks[i].macs.length; j++){
-  			for(k=0; k < data.networks.length; k++){
-  				if(data.networks[k].mac === uniqueJSON.networks[i].macs[j].macname){
-  					uniqueJSON.networks[i].macs[j].ssids = data.networks[k].ssids;
-  				}
-  			}
-  		}	
-  	}
+	// adds list of ssids connected to for each mac name
+	for (i=0; i < uniqueJSON.networks.length; i++){
+		for(j=0; j < uniqueJSON.networks[i].macs.length; j++){
+			for(k=0; k < data.networks.length; k++){
+				if(data.networks[k].mac === uniqueJSON.networks[i].macs[j].macname){
+					uniqueJSON.networks[i].macs[j].ssids = data.networks[k].ssids;
+				}
+			}
+		}	
+	}
+
+	// add number of hits from binned
+	for(i=0; i < uniqueJSON.networks.length; i++){
+		for(j=0; j < binneddata.networks.length; j++){
+			if(uniqueJSON.networks[i].ssid == binneddata.networks[j].ssid){
+				uniqueJSON.networks[i].hits = binneddata.networks[j].hits;
+			}
+		}
+	}
+
+  // sort uniqueJSON list by hits
+  uniqueJSON.networks = _.sortBy(uniqueJSON.networks, 'hits').reverse();
 
 
-  	// add number of hits from binned - NOT WORKING YET
-  	for(i=0; i < uniqueJSON.networks.length; i++){
-  		//for(j=0; j < binneddata.networks.length; j++){
-  			//if(uniqueJSON.networks[i].ssid == binneddata.networks[j].ssid){
-  				uniqueJSON.networks[i]['hits'] = 0;
-  			//}
-  		//}
-  	}
-
-  //console.log(uniqueJSON);
-  
+  // build content for webpage  
   for(i=0; i < uniqueJSON.networks.length; i++){
     toWrite += '<p><a name="' + uniqueJSON.networks[i].ssid + '">' + uniqueJSON.networks[i].ssid + ' (' + uniqueJSON.networks[i].hits + ')';
     for(j=0; j < uniqueJSON.networks[i].macs.length; j++){
@@ -123,21 +133,38 @@ $(window).on('JSONlistready', function(){
     toWrite += '</p>';
   };
 
-  console.log(data);
-
   document.getElementById("network").innerHTML = toWrite;
 });
 
 
+$.when(
+  $.getJSON('api/users/', function(response){
+  //$.getJSON('raw.js', function(response){
+    JSONlist = response;
+  }),
+  $.getJSON('api/ssids/', function(response){
+  //$.getJSON('binned.js', function(response){
+    JSON = response;
+  })
+).then(function(){
+  if(JSONlist && JSON){
+    $(window).trigger('JSONlistready');
+    $(window).trigger('JSONready');
+  } else {
+  }
+});
 
-$.getJSON('api/users/', function(response){
-//$.getJSON('raw.js', function(response){
+/*
+//$.getJSON('api/users/', function(response){
+$.getJSON('raw.js', function(response){
        JSONlist = response;
        $(window).trigger('JSONlistready');
 });
 
-$.getJSON('api/ssids/', function(response){
-//$.getJSON('binned.js', function(response){
+//$.getJSON('api/ssids/', function(response){
+$.getJSON('binned.js', function(response){
        JSON = response;
        $(window).trigger('JSONready');
-});
+});*/
+
+
