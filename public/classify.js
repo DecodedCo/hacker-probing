@@ -116,14 +116,30 @@ $(window).on('JSONlistready', function(){
 		}
 	}
 
-  // sort uniqueJSON list by hits
+  // sort uniqueJSON.networks list by hits
   uniqueJSON.networks = _.sortBy(uniqueJSON.networks, 'hits').reverse();
 
+  // append a length parameter to the ssid called len
+  for(i=0; i < uniqueJSON.networks.length; i++){
+    for(j=0; j < uniqueJSON.networks[i].macs.length; j++){
+      uniqueJSON.networks[i].macs[j].len = uniqueJSON.networks[i].macs[j].ssids.length;
+    }
+  }
+
+  // sort the macs array by the length of the ssid arrays
+  for(i=0; i < uniqueJSON.networks.length; i++){
+    for(j=0; j < uniqueJSON.networks[i].macs.length; j++){
+    uniqueJSON.networks[i].macs = _.sortBy(uniqueJSON.networks[i].macs, 'len').reverse();
+    }
+  }
+
+  var maxLength = 30;
 
   // build content for webpage
-  toWrite += '<ul>'; 
+  toWrite += '<ul>';
 
-  for(i=0; i < uniqueJSON.networks.length; i++){
+  //for(i=0; i < uniqueJSON.networks.length; i++){
+  for(i=0; i < maxLength; i++){
     toWrite += '<a name="' + uniqueJSON.networks[i].ssid + '"></a><li data-jstree=\'{"icon":"none"}\'><div class="li"><img src="img/wifi-favicon-black.png" class="wifi"> ' + uniqueJSON.networks[i].ssid + ' (' + uniqueJSON.networks[i].hits + ')</div>';
     toWrite += '<ul>';
 
