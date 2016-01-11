@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 	<head>
 		<meta charset="utf-8">
-		<!-- <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600"> -->
-		<link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
-		<!-- <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'> -->
-		
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css" />
-	  	
-		<script src="https://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
-	  	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
-	  	<!-- Include Fancytree skin and library -->
-	  	<!--<link href="ui.fancytree.css" rel="stylesheet" type="text/css">
-	  	<script src="jquery.fancytree-all.min.js" type="text/javascript"></script>-->
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.0.9/themes/default/style.min.css" />
+		<script src="//code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
+	  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
 
 	  	<style>
+	  	body {
+	  		background-color: darkgray;
+	  		color: darkgreen;
+	  		font-family: monospace;
+	  		font-size: 2em;
+	  	}
 	  	.wifi{
 	  		/*background-image: url("img/wifi-favicon-black.png");*/
 	  		height: 10px;
@@ -31,142 +29,12 @@
 	  		display: none;
 	  	}
 	  	</style>
-		
-		<!--<style>
-			body{
-				background-color: gray; /* black */
-				color: black; /* darkgreen */
-				font-family: 'Source Code Pro', ;
-				height: 95%;
-				margin: 0;
-				padding: 10px;
-			}
-			html {
-				height: 100%;
-				margin: 0;
-			}
-			.link {
-			  stroke: white; /* darkgreen */
-			}
-			.node text {
-			  pointer-events: none;
-			  font: 10px sans-serif;
-			}
-			p {
-				margin: 0px;
-				font-size: 2em;
-			}
-			.networkname {
-				font-weight: bold;
-			}
-			/*#focus {
-				width: 50%;
-				vertical-align: top;
-				display: inline-block;
-				height: 90%;
-				overflow: scroll;
-			}*/
-			#network{
-				/*width: 48%;*/
-				background-color: gray;
-				display: inline-block;
-			}
-			img {
-				height: 16px;
-				margin-right: 5px;
-			}
-			/*body {
-		      font-family: 'Open Sans', sans-serif;
-		      font-size: 12px;
-		      font-weight: 400;
-		      background-color: #fff;
-		      width: 960px;
-		      height: 700px;
-		      margin-top: 10px;
-		    }
 
-		    #main {
-		      float: left;
-		      width: 750px;
-		    }
-
-		    #sidebar {
-		      float: right;
-		      width: 100px;
-		    }
-
-		    #sequence {
-		      width: 600px;
-		      height: 70px;
-		    }
-
-		    #legend {
-		      padding: 10px 0 0 3px;
-		    }
-
-		    #sequence text, #legend text {
-		      font-weight: 600;
-		      fill: #fff;
-		    }
-
-		    #chart {
-		      position: relative;
-		    }
-
-		    #chart path {
-		      stroke: #fff;
-		    }
-
-		    #explanation {
-		      position: absolute;
-		      top: 260px;
-		      left: 305px;
-		      width: 140px;
-		      text-align: center;
-		      color: #666;
-		      z-index: -1;
-		    }
-
-		    #percentage {
-		      font-size: 2.5em;
-		    }*/
-		</style>-->
 	</head>
 	<body>
-		<!--<div id="focus"></div>-->
 		<div id="network"></div>
-
-
-		<!--sunburst-->
-		<!--<div id="main">
-	      <div id="sequence"></div>
-	      <div id="chart">
-	        <div id="explanation" style="visibility: hidden;">
-	          <span id="percentage"></span><br/>
-	          of time spent on this network
-	        </div>
-	      </div>
-	    </div>
-	    <div id="sidebar">
-	      <input type="checkbox" id="togglelegend"> Legend<br/>
-	      <div id="legend" style="visibility: hidden;"></div>
-	    </div>
-	    <script type="text/javascript" src="sunburst.js"></script>-->
-		<!--end of sunburst-->
-
-
-		<!--<script src="d3.v3.min.js"></script>-->
-		
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-		<!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>-->
-		
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 		<script src="classify.js"></script>
-		<!--<script>
-			$('li').click(function() {
-    			$(this).children('ul').toggle();
-    			return false;
-			});
-		</script>-->
 	</body>
 </html>

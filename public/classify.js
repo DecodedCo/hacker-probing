@@ -1,10 +1,3 @@
-//var req = new XMLHttpRequest();
-//req.open("GET", "binned.js");
-//req.overrideMimeType("application/json");
-//req.send(null);
-
-//require(["underscore"]);
-
 var JSON;
 var JSONlist;
 
@@ -15,7 +8,7 @@ var uniqueJSON = {"networks":[]};
 
 $(window).on('JSONready', function(){
  		var toWrite = '';
- 		
+
     /*
     //separate keys and values into separate arrays
  		var binnedkeys = _.keys(JSON);
@@ -32,7 +25,7 @@ $(window).on('JSONready', function(){
 
 	 	for(i=0; i < maxLength; i++){
 	 		//toWrite += '{"name":"'+data.networks[i].name+'","hits":'+data.networks[i].hits+',"type":"'+data.networks[i].type+'","index":'+data.networks[i].index+'},<br>';
-      toWrite += '<p><img src="wifi-favicon.png"><span class="networkname">'+data.networks[i].name+'</span> ('+data.networks[i].hits+')</p>';
+      toWrite += '<p><img src="img/wifi-favicon.png"><span class="networkname">'+data.networks[i].name+'</span> ('+data.networks[i].hits+')</p>';
 	 	};
 
 	 	//writes the list to the div with id of focus
@@ -69,8 +62,8 @@ $(window).on('JSONlistready', function(){
   //unique JSON of ssids, then macs
   for(i=0; i < uniquevalues.length; i++){
   	uniqueJSON.networks[i] = {"ssid":uniquevalues[i], "macs":[]};
-  }  
-  
+  }
+
   //separate keys and values of JSON file (for hits) into separate arrays
   var binnedkeys = _.keys(JSON);
   var binnedvalues = _.values(JSON);
@@ -104,7 +97,7 @@ $(window).on('JSONlistready', function(){
 					uniqueJSON.networks[i].macs[j].ssids = data.networks[k].ssids;
 				}
 			}
-		}	
+		}
 	}
 
 	// add number of hits from binned
@@ -153,7 +146,7 @@ $(window).on('JSONlistready', function(){
 
         toWrite += '</ul>';
         toWrite += '</li>';
-    } 
+    }
 
     toWrite += '</ul>';
     toWrite += '</li>';
@@ -175,11 +168,11 @@ $(window).on('JSONlistready', function(){
 
 $.when(
   $.getJSON('api/users/', function(response){
-  //$.getJSON('raw.js', function(response){
+  //$.getJSON('users.json', function(response){
     JSONlist = response;
   }),
   $.getJSON('api/ssids/', function(response){
-  //$.getJSON('binned.js', function(response){
+  //$.getJSON('ssids.json', function(response){
     JSON = response;
   })
 ).then(function(){
@@ -189,18 +182,3 @@ $.when(
   } else {
   }
 });
-
-/*
-//$.getJSON('api/users/', function(response){
-$.getJSON('raw.js', function(response){
-       JSONlist = response;
-       $(window).trigger('JSONlistready');
-});
-
-//$.getJSON('api/ssids/', function(response){
-$.getJSON('binned.js', function(response){
-       JSON = response;
-       $(window).trigger('JSONready');
-});*/
-
-
