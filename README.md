@@ -36,6 +36,7 @@ To visualize the API data for social profiling:
 
 * `GET /` contains a single page view of SSIDs, which you can double click on to reveal users, which you can double click on to visualize SSIDs.
 
+![frontend](https://cloud.githubusercontent.com/assets/534681/12266411/0efd3a12-b911-11e5-9d2c-cc3fe2cb52c3.png)
 
 ## Usage
 
