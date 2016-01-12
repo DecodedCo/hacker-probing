@@ -10,26 +10,32 @@ This is information leakage for an attacker - if captured, they can either creat
 
 ## Architecture
 
-There are 2 main components to this suite:
+There are 3 components to this suite:
 
-### Shell scripts to collect the Probe Requests
+### 1. Shell scripts to collect the Probe Requests
 
 In `shell-scripts` you will find two shell scripts to collect the probe requests using a WiFi network card that is able to go into monitor mode.
 
-### Node API and Frontend
+### 2. Node API
 
-To store and visualize the probe requests through a web frontend (so you could, for example, leave the sniffing device on a Raspberry Pi), there is a node.js frontend.
+To store the probe requests through a RESTful API (so you could, for example, leave the sniffing device on a Raspberry Pi), there is a node.js backend.
 
 `npm install`
 
 `npm start`
 
-* `GET /` will eventually contain the frontend for visualizing the data stored
 * `GET /api/` is an endpoint which points to other available endpoints:
   * `POST /api/` will process the data sent from the shellscripts
   * `DELETE /api/` will clear currently stored data
   * `GET /api/ssids/` will return a list of SSIDs by count requested
   * `GET /api/users/` will return a list of MACs with SSIDs requested per MAC
+
+### 3. Frontend for visualization
+
+To visualize the API data for social profiling:
+
+* `GET /` contains a single page view of SSIDs, which you can double click on to reveal users, which you can double click on to visualize SSIDs.
+
 
 ## Usage
 
