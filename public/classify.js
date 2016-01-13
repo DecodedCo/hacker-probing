@@ -126,7 +126,13 @@ $(window).on('JSONlistready', function(){
     }
   }
 
-  var maxLength = 30;
+  // limits the number of networks to show when the number of networks exceeds 30
+  var maxLength;
+  if(uniqueJSON.networks.length < 30){
+    maxLength = uniqueJSON.networks.length;
+  } else {
+    maxLength = 30;
+  }
 
   // build content for webpage
   toWrite += '<ul>';
