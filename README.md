@@ -18,7 +18,7 @@ In `shell-scripts` you will find two shell scripts to collect the probe requests
 
 ### 2. Node API
 
-To store the probe requests through a RESTful API (so you could, for example, leave the sniffing device on a Raspberry Pi), there is a node.js backend.
+To store the probe requests through a RESTful API (so you could, for example, leave the sniffing device on a Raspberry Pi), there is a node.js backend. *Note*: this includes some Heroku specific code to allow this to run on the Decoded infrastructure that you'll need to strip out.
 
 `npm install`
 
