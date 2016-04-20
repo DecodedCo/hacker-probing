@@ -98,9 +98,16 @@ app.post('/api/', upload.single('data'), function(req, res) {
           }
         }
       });
-
+      // order the data
+      sorted_ssid_keys = Object.keys(ssids).sort(function(a,b){
+        return ssids[b] - ssids[a];
+      });
+      sorted_ssids = {};
+      sorted_ssid_keys.forEach(function(key) {
+        sorted_ssids[key] = ssids[key];
+      });
       // save the result
-      fs.writeFile('ssids.json', JSON.stringify(ssids), function(err) {
+      fs.writeFile('ssids.json', JSON.stringify(sorted_ssids), function(err) {
         if (err) throw err;
         console.log("Saved ssids to disk");
 
@@ -131,8 +138,16 @@ app.post('/api/', upload.single('data'), function(req, res) {
                 }
               }
             });
+            // order the data
+            sorted_user_keys = Object.keys(users).sort(function(a,b){
+              return users[b].length - users[a].length;
+            });
+            sorted_users = {};
+            sorted_user_keys.forEach(function(key) {
+              sorted_users[key] = users[key];
+            });
             // save the data
-            fs.writeFile('users.json', JSON.stringify(users), function(err) {
+            fs.writeFile('users.json', JSON.stringify(sorted_users), function(err) {
               if (err) throw err;
               console.log("Saved users to disk");
               res.end("Om nom nom\n");
