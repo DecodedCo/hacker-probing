@@ -5,3 +5,4 @@ docker-compose.yml
 npm-debug.log
 ssids.json
 users.json
+.DS_Store

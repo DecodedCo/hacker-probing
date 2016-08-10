@@ -1,0 +1,55 @@
+body{
+    background: black;
+    font-family: sans-serif;
+}
+svg {
+    border: 2px solid #444;
+    margin: 2% 4%;
+}
+.link {
+    stroke: darkgray;
+}
+.node text {
+    pointer-events: none;
+    font: 10px sans-serif;
+    display:none;
+}
+.devices {
+    fill: rgb(204, 204, 255);
+    stroke: rgb(0, 153, 255);
+    /*fill: rgb(255, 255, 204);
+    stroke: rgb(255, 255, 0);*/
+    stroke-width: 3px;
+}
+.accesspoints {
+    fill: rgb(204, 255, 204);
+    stroke: rgb(51, 204, 51);
+    stroke-width: 3px;
+}
+
+/* Tooltip container */
+#tooltip {
+    position: relative;
+    display: inline-block;
+    width: 180px;
+    background-color: rgb(204, 204, 255);
+    color: black;
+    text-align: center;
+    padding: 6px 12px;
+    border-radius: 3px;
+    position: absolute;
+    z-index: 1;
+    font-family: sans-serif;
+    border: 2px solid rgb(0, 153, 255);
+}
+
+#tooltip::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -3px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgb(0, 153, 255) transparent transparent transparent;
+}
