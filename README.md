@@ -44,3 +44,11 @@ To visualize the API data for social profiling:
 2. Update `upload.sh` with the URL of your node API instance and check other params
 3. Run the `./upload.sh` shell script on your sniffing device, which will need two network interfaces - one for sniffing, and one for posting the data to the API
 4. View `/` in the browser to see a breakdown of access points requested.
+
+## Certificates
+
+If you are trying to upload data to the node API through a client side SSL certificate (which you should to protect the data), then you will need to include your client side certificate in `upload.sh`.
+
+If you are working on Mac OS X, you will need to install an OpenSSL version of `curl`: https://github.com/curl/curl/issues/283
+
+You will need to either specify the certificate password in `upload.sh` or strip out the password from a `.p12` certificate: `openssl pkcs12 -in input.p12 -out output.p12 -nodes`.

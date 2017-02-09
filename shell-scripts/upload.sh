@@ -10,6 +10,8 @@ interface="wlan0"
 server="http://YOURIP:5000/api/"
 
 # Pass in any certificate details as needed
+#curl_opts="-E ~/cert-with-password.p12:password"
+#curl_opts="-E ~/cert-without-password.p12"
 curl_opts=""
 
 # Get us into monitor mode
