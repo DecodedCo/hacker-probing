@@ -27,7 +27,7 @@ app.use(function(request, response, next) {
     next();
   } else {
     response.status(403);
-    response.send('Direct access forbidden', ipAddr);
+    response.send('Direct access forbidden');
     response.end();
   }
 })
