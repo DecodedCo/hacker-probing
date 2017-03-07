@@ -16,6 +16,11 @@ There are 3 components to this suite:
 
 In `shell-scripts` you will find two shell scripts to collect the probe requests using a WiFi network card that is able to go into monitor mode.
 
+USB adapters that have been tested:
+
+1. ALFA AWUS036NHA (Atheros AR9271)
+2. ALFA AWUS036ACH (Realtek RTL8812AU)
+
 ### 2. Node API
 
 To store the probe requests through a RESTful API (so you could, for example, leave the sniffing device on a Raspberry Pi), there is a node.js backend. *Note*: this includes some Heroku specific code to allow this to run on the Decoded infrastructure that you'll need to strip out.
