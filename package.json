@@ -9,6 +9,7 @@
   "dependencies": {
     "csvtojson": "^0.4.5",
     "express": "~4.9.x",
+    "express-auth0-simple": "~3.0.2",
     "multer": "^1.1.0"
   },
   "engines": {

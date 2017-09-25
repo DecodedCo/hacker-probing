@@ -1,12 +1,16 @@
 // example curl:
 // curl -F data=@output.log ip:5000/api/data/
 
-var express = require('express');
-var app = express();
-var multer = require('multer');
-var upload = multer();
-var Converter = require("csvtojson").Converter;
 var fs = require('fs');
+
+var csvtojson = require('csvtojson');
+var express = require('express');
+var multer = require('multer');
+
+var Converter = csvtojson.Converter;
+
+var app = express();
+var upload = multer();
 
 app.set('port', (process.env.PORT || 5000));
 
