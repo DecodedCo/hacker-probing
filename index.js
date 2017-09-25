@@ -19,40 +19,6 @@ var upload = multer();
 
 app.set('port', (process.env.PORT || 5000));
 
-// Return all ssid counts
-app.get('/api/ssids/', function(req, res) {
-  fs.readFile('ssids.json', function (err, data) {
-    if (err) throw err;
-    res.json(JSON.parse(data));
-  });
-});
-
-// Return all users and their ssids for network analysis
-app.get('/api/users/', function(req, res) {
-  fs.readFile('users.json', function (err, data) {
-    if (err) throw err;
-    res.json(JSON.parse(data));
-  });
-});
-
-// Feedback on available endpoints
-app.get('/api/', function(req, res) {
-  res.json( { "Available endpoints": ["GET /api/ssids/", "GET /api/users/", "POST /api/", "DELETE /api/"] } );
-});
-
-// Clear out data
-app.delete('/api/', function(req, res) {
-  fs.writeFile('ssids.json', "{}", function(err) {
-    if (err) throw err;
-    console.log("Emptied ssid file");
-    fs.writeFile('users.json', "{}", function(err) {
-      if (err) throw err;
-      console.log("Emptied users file");
-      res.json({"message" : "Cleared"});
-    });
-  });
-});
-
 // Process incoming data and store
 app.post('/api/', upload.single('data'), function(req, res) {
   // convert file upload to string
@@ -148,6 +114,40 @@ app.use(express.static('public'));
 
 // all routes defined after this point will be protected by auth
 app.use(auth.requiresLogin);
+
+// Return all ssid counts
+app.get('/api/ssids/', function(req, res) {
+  fs.readFile('ssids.json', function (err, data) {
+    if (err) throw err;
+    res.json(JSON.parse(data));
+  });
+});
+
+// Return all users and their ssids for network analysis
+app.get('/api/users/', function(req, res) {
+  fs.readFile('users.json', function (err, data) {
+    if (err) throw err;
+    res.json(JSON.parse(data));
+  });
+});
+
+// Feedback on available endpoints
+app.get('/api/', function(req, res) {
+  res.json( { "Available endpoints": ["GET /api/ssids/", "GET /api/users/", "POST /api/", "DELETE /api/"] } );
+});
+
+// Clear out data
+app.delete('/api/', function(req, res) {
+  fs.writeFile('ssids.json', "{}", function(err) {
+    if (err) throw err;
+    console.log("Emptied ssid file");
+    fs.writeFile('users.json', "{}", function(err) {
+      if (err) throw err;
+      console.log("Emptied users file");
+      res.json({"message" : "Cleared"});
+    });
+  });
+});
 
 // Switch it on
 app.listen(app.get('port'), function() {
