@@ -5,11 +5,16 @@ var fs = require('fs');
 
 var csvtojson = require('csvtojson');
 var express = require('express');
+var expressAuth0Simple = require('express-auth0-simple');
+var dotenv = require('dotenv');
 var multer = require('multer');
 
 var Converter = csvtojson.Converter;
 
+dotenv.config();
+
 var app = express();
+var auth = new expressAuth0Simple(app);
 var upload = multer();
 
 app.set('port', (process.env.PORT || 5000));
@@ -140,6 +145,9 @@ app.post('/api/', upload.single('data'), function(req, res) {
 
 // Serve front page
 app.use(express.static('public'));
+
+// all routes defined after this point will be protected by auth
+app.use(auth.requiresLogin);
 
 // Switch it on
 app.listen(app.get('port'), function() {
